@@ -31,3 +31,15 @@ class V1Router(APIRouter):
             description="Обработчик POST-запроса к маршруту `/revert_vector`. Принимает вектор (список чисел), инвертирует его и возвращает обратно клиенту.",
             response_class=Response,
         )
+
+        embedding_router = APIRouter(prefix="/embedding")
+        embedding_router.add_api_route(
+            "/text",
+            self.__v1_handler.post_text_to_embedding,
+            methods=[_HTTP_METHOD_POST],
+            summary="Text to embedding endpoint",
+            description="Обработчик POST-запроса к маршруту `/embedding/text`. Принимает текст, возвращает векторное представление текста.",
+            response_class=Response,
+        )
+
+        self.include_router(embedding_router)

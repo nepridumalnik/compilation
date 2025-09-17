@@ -17,5 +17,11 @@ Content-Type: application/json
 "string"
 
 ###
+# Embedding text
+POST http://localhost:8000/api/v1/embedding/text
+
+"some text"
+
+###
 # Unknown route
 GET http://localhost:8000/unknow

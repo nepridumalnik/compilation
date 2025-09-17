@@ -1,8 +1,13 @@
-from fastapi import Response
+from fastapi import Response, Body
+import numpy as np
 from app.utils import make_json_response
+from app.lib.clip_embedder import CLIPEmbedder
 
 
 class V1Handler:
+    def __init__(self):
+        self.__clip_embedder = CLIPEmbedder()
+
     async def ping(self) -> Response:
         """
         Обработчик GET-запроса к маршруту `/ping`.
@@ -12,6 +17,20 @@ class V1Handler:
         """
 
         return make_json_response({"message": "pong"})
+
+    async def post_text_to_embedding(self, text: str = Body(...)) -> Response:
+        """
+        Преобразовать текст в эмбеддинг.
+
+        Args:
+            text (str): Текст, который требуется преобразовать в эмбеддинг.
+
+        Returns:
+            Response: JSON-массив с эмбеддингом.
+        """
+
+        embedding = self.__clip_embedder.embed(text)
+        return make_json_response(embedding.tolist())
 
     async def revert_vector(self, vector: list[float] | str) -> Response:
         """
