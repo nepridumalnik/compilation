@@ -1,5 +1,4 @@
-from fastapi import Response, Body
-import numpy as np
+from fastapi import Response, Body, UploadFile, File
 from app.utils import make_json_response
 from app.lib.clip_embedder import CLIPEmbedder
 
@@ -30,6 +29,20 @@ class V1Handler:
         """
 
         embedding = self.__clip_embedder.embed(text)
+        return make_json_response(embedding.tolist())
+
+    async def post_image_to_embedding(self, file: UploadFile = File(...)) -> Response:
+        """
+        Преобразовать изображение в эмбеддинг.
+
+        Args:
+            file (UploadFile): Изображение (jpg/png), переданное в теле запроса.
+
+        Returns:
+            Response: JSON-массив с эмбеддингом.
+        """
+        image_bytes = await file.read()
+        embedding = self.__clip_embedder.embed_image(image_bytes)
         return make_json_response(embedding.tolist())
 
     async def revert_vector(self, vector: list[float] | str) -> Response:

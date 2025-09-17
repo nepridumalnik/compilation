@@ -6,14 +6,19 @@ _API_PREFIX: str = "/api"
 
 class ApiRouter(APIRouter):
     """
-    Класс для создания маршрутизатора API.
+    Маршрутизатор верхнего уровня для всего API приложения.
+
+    Этот класс объединяет все версии API под единым префиксом `/api`.
+    Внутри него подключаются версии маршрутов (например, `V1Router`).
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
-        Инициализирует маршрутизатор API с префиксом "/api".
+        Создаёт экземпляр маршрутизатора API с префиксом `/api`.
+
+        В данный момент подключает маршрутизатор первой версии API (`V1Router`).
         """
         super().__init__(prefix=_API_PREFIX)
 
-        self.__v1_router = V1Router()
+        self.__v1_router: V1Router = V1Router()
         self.include_router(self.__v1_router)

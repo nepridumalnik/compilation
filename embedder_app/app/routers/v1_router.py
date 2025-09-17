@@ -41,5 +41,13 @@ class V1Router(APIRouter):
             description="Обработчик POST-запроса к маршруту `/embedding/text`. Принимает текст, возвращает векторное представление текста.",
             response_class=Response,
         )
+        embedding_router.add_api_route(
+            "/image",
+            self.__v1_handler.post_image_to_embedding,
+            methods=[_HTTP_METHOD_POST],
+            summary="Image to embedding endpoint",
+            description="Принимает изображение (jpg/png), возвращает эмбеддинг.",
+            response_class=Response,
+        )
 
         self.include_router(embedding_router)

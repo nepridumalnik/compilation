@@ -1,6 +1,8 @@
 import torch
 import numpy as np
 from sentence_transformers import SentenceTransformer
+from PIL import Image
+import io
 
 _CLIP_MODEL = "sentence-transformers/clip-ViT-B-32"
 
@@ -17,7 +19,7 @@ class CLIPEmbedder:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.__model = SentenceTransformer(_CLIP_MODEL).to(device=device)
 
-    def embed(self, prompt: str | np.ndarray) -> np.ndarray:
+    def embed(self, prompt: str) -> np.ndarray:
         """Преобразует текст или массив строк в эмбеддинг CLIP.
 
         Args:
@@ -29,5 +31,22 @@ class CLIPEmbedder:
         """
         embedding = self.__model.encode(
             prompt, convert_to_numpy=True, normalize_embeddings=True
-        )
+        ).astype(np.float32)
         return embedding
+
+    def embed_image(self, image_bytes: bytes) -> np.ndarray:
+        """Преобразует изображение в эмбеддинг CLIP.
+
+        Args:
+            image_bytes (bytes): Сырые байты изображения (jpg/png).
+
+        Returns:
+            np.ndarray: Нормализованный эмбеддинг изображения.
+        """
+        image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+        embedding = self.__model.encode(  # type: ignore[arg-type]
+            [image],  # type: ignore
+            convert_to_numpy=True,
+            normalize_embeddings=True,
+        ).astype(np.float32)
+        return embedding[0]
