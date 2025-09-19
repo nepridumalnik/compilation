@@ -10,7 +10,7 @@ def main():
     HOST=0.0.0.0 PORT=8080 python main.py
     """
 
-    from app.app import WebApp
+    from app import WebApp
 
     app = WebApp()
     app.run()

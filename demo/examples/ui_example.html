@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сервис подбора одежды</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Левая панель */
+        .sidebar {
+            flex: 0 0 20%;
+            background: #f5f5f5;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid #ccc;
+        }
+
+        .sidebar h2 {
+            font-size: 16px;
+            margin-top: 0;
+        }
+
+        .sidebar label {
+            font-size: 14px;
+            display: block;
+            margin: 8px 0 4px;
+        }
+
+        .sidebar input,
+        .sidebar select {
+            width: 100%;
+            padding: 5px;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .search-settings {
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+
+        .search-settings label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Центральная область */
+        .main {
+            flex: 1;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .silhouette {
+            height: 100vh;
+            /* растянуть на весь экран */
+            max-height: 100%;
+            width: auto;
+            filter: brightness(0) saturate(0) invert(50%);
+            /* серый цвет */
+            object-fit: contain;
+        }
+
+        /* Правая панель */
+        .recommendations {
+            flex: 0 0 30%;
+            background: #fafafa;
+            padding: 15px;
+            overflow-y: auto;
+            border-left: 1px solid #ccc;
+        }
+
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding-bottom: 10px;
+        }
+
+        .carousel::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .carousel::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        .carousel img {
+            height: 80px;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .carousel img.selected {
+            border-color: #007BFF;
+        }
+
+        h3 {
+            font-size: 16px;
+            margin: 15px 0 8px;
+        }
+
+        /* Мобильная адаптация */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar,
+            .main,
+            .recommendations {
+                flex: none;
+                width: 100%;
+                height: auto;
+            }
+
+            .silhouette {
+                height: auto;
+                max-height: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div>
+            <h2>Параметры пользователя</h2>
+            <label for="height">Рост (см):</label>
+            <input type="number" id="height" value="172">
+
+            <label for="weight">Вес (кг):</label>
+            <input type="number" id="weight" value="70">
+
+            <label for="body-type">Телосложение:</label>
+            <select id="body-type">
+                <option>Худощавое</option>
+                <option>Среднее</option>
+                <option>Спортивное</option>
+                <option>Полное</option>
+            </select>
+
+            <label for="hair-color">Цвет волос:</label>
+            <select id="hair-color">
+                <option>Чёрный</option>
+                <option>Тёмно-русый</option>
+                <option>Русый</option>
+                <option>Светло-русый</option>
+                <option>Рыжий</option>
+                <option>Седой</option>
+            </select>
+
+            <label>Пол:</label>
+            <select id="gender">
+                <option>Мужской</option>
+                <option>Женский</option>
+            </select>
+
+            <label for="clothing-size">Размер одежды:</label>
+            <input type="text" id="clothing-size" value="50">
+
+            <label for="shoe-size">Размер обуви:</label>
+            <input type="text" id="shoe-size" value="40">
+
+            <label for="hat-size">Размер головного убора:</label>
+            <input type="text" id="hat-size" value="55">
+        </div>
+
+        <div class="search-settings">
+            <h2>Настройки поиска</h2>
+            <label><input type="checkbox" id="search-hats" checked> Головные уборы</label>
+            <label><input type="checkbox" id="search-outerwear" checked> Верхняя одежда</label>
+            <label><input type="checkbox" id="search-pants" checked> Штаны</label>
+            <label><input type="checkbox" id="search-shoes" checked> Обувь</label>
+        </div>
+    </div>
+
+    <div class="main">
+        <img class="silhouette" src="https://upload.wikimedia.org/wikipedia/commons/8/83/SVG_Human_Silhouette.svg"
+            alt="Силуэт">
+    </div>
+
+    <div class="recommendations">
+        <h3>Головные уборы</h3>
+        <div class="carousel" id="carousel-hats">
+            <img src="https://odezhda.guru/wp-content/uploads/2019/07/1-130.jpg" alt="Hat1">
+            <img src="https://www.100suvenirov.ru/data/Image/catalog/504335-shapka-real-talk-golubaya_bb.jpg"
+                alt="Hat2">
+            <img src="https://cat.rk-a.ru/files/catalog/2/th/400/c8/a9/c8a9a14a14411077a223c25b1a62a5cb.jpg" alt="Hat3">
+        </div>
+
+        <h3>Верхняя одежда</h3>
+        <div class="carousel" id="carousel-outerwear">
+            <img src="https://gas-kvas.com/uploads/posts/2023-01/1673554162_gas-kvas-com-p-detskaya-futbolka-chernaya-bez-risunka-17.jpg"
+                alt="Jacket1">
+            <img src="https://vispo.ru/upload/iblock/e8d/w302kom0ajlqcq6g9jabldwdkevltnku/02102220_1_tif_1000x1000.jpg"
+                alt="Jacket2">
+            <img src="https://i.pinimg.com/originals/e0/63/4a/e0634a9b331217bab3c44abf7a1d8866.jpg" alt="Jacket3">
+        </div>
+
+        <h3>Штаны</h3>
+        <div class="carousel" id="carousel-pants">
+            <img src="https://cdn1.ozone.ru/s3/multimedia-l/6755030049.jpg" alt="Pants1">
+            <img src="https://fashionhot.club/uploads/posts/2022-11/thumbs/1669049646_67-fashionhot-club-p-shirokie-klassicheskie-bryuki-71.jpg" alt="Pants2">
+            <img src="https://img.fantaskycdn.com/f2d5188c17096157613a8757bc2ec240.jpeg" alt="Pants3">
+        </div>
+
+        <h3>Обувь</h3>
+        <div class="carousel" id="carousel-shoes">
+            <img src="https://obuv.expert/wp-content/uploads/2019/04/slipony-zhenskie-iz-naturalnogo-zamsha-svetlo-serogo-cveta-na-beloy-podoshve-kollekci-1519-1920x1440-1024x768.jpg" alt="Shoes1">
+            <img src="https://img.klubok.com/img/used/2018/04/13/16986/l/16986489_2.jpg" alt="Shoes2">
+            <img src="https://www.coolthings.com/wp-content/uploads/2023/09/crocs-classic-dreamworks-shrek-clogs-1.jpg" alt="Shoes3">
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.carousel').forEach(carousel => {
+            carousel.addEventListener('click', e => {
+                if (e.target.tagName === 'IMG') {
+                    carousel.querySelectorAll('img').forEach(img => img.classList.remove('selected'));
+                    e.target.classList.add('selected');
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,6 +1,6 @@
 from fastapi import Response, Body, UploadFile, File
-from app.utils import make_json_response
-from app.lib.clip_embedder import CLIPEmbedder
+from utils import make_json_response
+from lib.clip_embedder import CLIPEmbedder
 
 
 class V1Handler:

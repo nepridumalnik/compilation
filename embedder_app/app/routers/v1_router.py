@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Response
-from app.api.v1.handlers import V1Handler
+from api.v1.handlers import V1Handler
 
 _HTTP_METHOD_POST: str = "POST"
 _HTTP_METHOD_GET: str = "GET"

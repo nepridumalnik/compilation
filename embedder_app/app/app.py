@@ -2,8 +2,8 @@ from fastapi import FastAPI
 import uvicorn
 
 
-from app.configure import AppConfig
-from app.routers.api import ApiRouter
+from configure import AppConfig
+from routers.api import ApiRouter
 
 
 class WebApp(FastAPI):
