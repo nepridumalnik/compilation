@@ -17,7 +17,7 @@ import open_clip
 
 # ==================== CONFIG ====================
 
-QDRANT_URL = os.getenv("QDRANT_URL", "http://localhost:6333")
+QDRANT_FILE = os.getenv("QDRANT_FILE", "data/qdrant.db")
 QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
 MODEL_NAME = os.getenv("MODEL_NAME", "ViT-B-32")
 PRETRAINED = os.getenv("PRETRAINED", "laion2b_s34b_b79k")
@@ -59,7 +59,7 @@ class ClipService:
 
 
 clip_service = ClipService()
-qdrant = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
+qdrant = QdrantClient(path=QDRANT_FILE, api_key=QDRANT_API_KEY)
 
 
 # ==================== INGEST ====================
